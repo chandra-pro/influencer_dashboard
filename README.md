@@ -1,3 +1,6 @@
+# Influencer_dashboard
+Dashboard for influencer to generate link and see their engagement
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
