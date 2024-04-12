@@ -148,7 +148,7 @@ const GetOtp = ({ setShowSnackbar, setSnackbarMessage, setSnackbarSeverity, phon
             setSnackbarMessage('Login Successfull');
             setSnackbarSeverity('success');
             setShowSnackbar(true);
-            navigate('/dashboard')
+            navigate('/')
 
             // ...
         }).catch((error) => {

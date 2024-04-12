@@ -35,7 +35,7 @@ const Dashboard = ({ BASE_URL, setShowSnackbar, setSnackbarMessage, setSnackbarS
   const [userID, setUserID] = useState(null)
   const [isAdmin, setIsAdmin] = useState(false)
   const [loading, setLoading] = useState(true);
-  const [isapproved,setApproved]=useState(false);
+  const [isapproved,setApproved]=useState(true);
   const navigate = useNavigate()
   useEffect(() => {
     const auth = getAuth();
@@ -74,6 +74,7 @@ const Dashboard = ({ BASE_URL, setShowSnackbar, setSnackbarMessage, setSnackbarS
       setSnackbarSeverity('success');
       setShowSnackbar(true);
       setUserID(null)
+    
     }
     catch (err) {
       console.log(err)
@@ -90,7 +91,7 @@ const Dashboard = ({ BASE_URL, setShowSnackbar, setSnackbarMessage, setSnackbarS
     // setSnackbarMessage('Please Login first');
     // setSnackbarSeverity('error');
     // setShowSnackbar(true);
-    navigate('/')
+    navigate('/login')
   }
   if (isAdmin) navigate('/admin')
 
@@ -176,7 +177,7 @@ const Dashboard = ({ BASE_URL, setShowSnackbar, setSnackbarMessage, setSnackbarS
             <Route path='profile' element={<InfluencerProfile BASE_URL={BASE_URL} userID={userID} isAdmin={isAdmin} user={user} isapproved={isapproved}/>}  ></Route>
             
             <Route path='products/'>
-              <Route path='list' element={<ProductsList BASE_URL={APP_BASE_URL} userID={userID} isAdmin={isAdmin} user={user} isapproved={isapproved}/>} />
+              <Route path='list' element={<ProductsList BASE_URL={BASE_URL} userID={userID} isAdmin={isAdmin} user={user} isapproved={isapproved}/>} />
               {/* <Route path='edit/:productId' element={<ProductDetailsPage BASE_URL={BASE_URL} userID={userID} setShowSnackbar={setShowSnackbar} setSnackbarMessage={setSnackbarMessage} setSnackbarSeverity={setSnackbarSeverity} isAdmin={isAdmin} user={user} />} /> */}
               
             </Route >

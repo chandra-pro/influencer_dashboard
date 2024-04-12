@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, CardActions, Typography, Button, CardMedia } from '@mui/material';
+import {  Typography, Button } from '@mui/material';
+
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import BackButton from './BackButton';
@@ -10,15 +13,47 @@ import ProductCard from './ProductCard';
 
 
 const APP_BASE_URL= "https://brapi.buybold.in"
-const ProductsList = ({ userID, BASE_URL ,isAdmin,user,isapproved}) => {
+const ProductsList = ({ userID, BASE_URL ,isAdmin,user}) => {
     const [uploadedProducts, setUploadedProducts] = useState([]);
     const [searchQuery, setSearchQuery] = useState(''); 
     const [isLoading, setIsLoading] = useState(false);
+    const [isapproved,setApproved]=useState(false);
     const navigate = useNavigate();
+    const theme = useTheme();
+  
+
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  
+
+  const buttonStyle = {
+    fontSize: isSmallScreen ? '14px' : '16px',  // Adjust font size
+    padding: isSmallScreen ? '8px 12px' : '10px 16px',  // Adjust padding
+    minWidth: isSmallScreen ? '100px' : '120px',  // Adjust minimum width
+  };
+    
     const filteredProducts = uploadedProducts.filter((product) =>
         product.name.toLowerCase().includes(searchQuery.toLowerCase())
         ||product.description.toLowerCase().includes(searchQuery.toLowerCase())
         );
+       
+        useEffect(()=>{
+            const fetchData = async () => {
+              try {
+                const influencerInfoResponse = await axios.get(`${BASE_URL}/api/influencer/getInfluencerInfo/${userID}`)
+                const influencerInfo = influencerInfoResponse.data;
+                setApproved(influencerInfo.isProfileApproved);
+               
+              } catch (error) {
+                console.error('Error fetching profile data:', error);
+                return null; // You can handle errors as needed
+              }
+            };
+        
+            fetchData()
+            
+          },[])
+
+    
 
     useEffect(()=>{},[userID])
     useEffect(() => {
@@ -32,6 +67,7 @@ const ProductsList = ({ userID, BASE_URL ,isAdmin,user,isapproved}) => {
                 const { status, allProducts } = response.data;
                 if(response.data.status==="Success")
                 setUploadedProducts([...uploadedProducts, ...allProducts]);
+            
             } catch (error) {
                 console.error('Error fetching uploaded products:', error);
             }
@@ -71,12 +107,19 @@ const ProductsList = ({ userID, BASE_URL ,isAdmin,user,isapproved}) => {
             ) : (
                 <div style={styles.gridContainer}>
                     {filteredProducts.map((product) => (
-                        <ProductCard product={product} isAdmin={isAdmin} user={user} BASE_URL={BASE_URL} />
+                        <ProductCard product={product} isAdmin={isAdmin} user={user} BASE_URL={BASE_URL} userID={userID} />
                     ))}
                      {isLoading ? (
         <p>Loading...</p>
       ) : (
-        <button onClick={handleLoadMore}>Load More</button>
+        <Button
+      variant="contained"
+      color="primary"
+      onClick={handleLoadMore}
+      style={buttonStyle}
+    >
+      Load More
+    </Button>
       )}
                 </div>
             )}
