@@ -20,8 +20,9 @@ import Login  from './screens/login';
 // Import the functions you need from the SDKs you need
 
 const queryClient = new QueryClient();
+const BASE_URL=process.env.REACT_APP_LOCAL_URL;
 
- const BASE_URL = "http://localhost:4000"
+
 
 export const NoRoute = () => {
   return <>

@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Typography,
@@ -15,12 +15,7 @@ import StoreIcon from '@mui/icons-material/Store';
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import BusinessIcon from '@mui/icons-material/Business';
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import TwitterIcon from '@mui/icons-material/Twitter';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import InstagramIcon from '@mui/icons-material/Instagram';
 import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 
@@ -67,22 +62,20 @@ const styles = {
   },
 };
 
-
-
-const SellerProfile = ({BASE_URL,userID,isapproved}) => {
-  const[profileData,setProfileData]=useState({})
+const SellerProfile = ({ BASE_URL, userID, isapproved }) => {
+  const [profileData, setProfileData] = useState({});
   const [approved, setApproved] = useState(false);
-  const navigate=useNavigate()
-  useEffect(()=>{
+  const navigate = useNavigate();
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const influencerInfoResponse = await axios.get(`${BASE_URL}/api/influencer/getInfluencerInfo/${userID}`);
         const socialMediaResponse = await axios.get(`${BASE_URL}/api/influencer/getSocialMedia/${userID}`);
-    
+
         const influencerInfo = influencerInfoResponse.data;
         const socialMedia = socialMediaResponse.data;
-    
-        // Combine the data into one object
+
         const Data = {
           name: influencerInfo.name || '',
           phoneNumber: influencerInfo.phoneNumber || '',
@@ -92,28 +85,26 @@ const SellerProfile = ({BASE_URL,userID,isapproved}) => {
           facebook: socialMedia.facebook || '',
           instagram: socialMedia.instagram || '',
         };
-    
+
         setProfileData(Data);
         setApproved(influencerInfo.isProfileApproved);
-        isapproved(approved)
+        isapproved(approved);
       } catch (error) {
         console.error('Error fetching profile data:', error);
-        return null; // You can handle errors as needed
+        return null;
       }
     };
 
-    fetchData()
-    
-  },[userID,approved])
-  
+    fetchData();
+  }, [BASE_URL, userID, isapproved, approved]);
+
   return (
     <ThemeProvider theme={theme}>
-      <Container>
+      <Container maxWidth="sm"> 
         <Paper elevation={3} style={styles.container}>
           <Typography variant="h5" style={styles.heading}>
             <StoreIcon style={styles.icon} />
             Influencer Profile
-            
           </Typography>
           <Box style={styles.content}>
             <div style={styles.section}>
@@ -121,24 +112,23 @@ const SellerProfile = ({BASE_URL,userID,isapproved}) => {
                 <StoreIcon style={styles.icon} />
                 Influencer Information
                 <Box
-      sx={{
-        border: 1,
-        borderColor: approved ? 'success.main' : 'error.main',
-        backgroundColor: approved ? 'success.main' : 'error.main',
-        padding: 1,
-        textAlign: 'center',
-        width: 150, // Set the width (adjust as needed)
-        height: 50,
-        margin:3
-      }}
-    >
-      <Typography variant="h6">
-        {approved ? 'Approved' : 'Not approved'}
-      </Typography>
-     
-    </Box>
+                  sx={{
+                    border: 1,
+                    borderColor: approved ? 'success.main' : 'error.main',
+                    backgroundColor: approved ? 'success.main' : 'error.main',
+                    padding: 1,
+                    textAlign: 'center',
+                    width: 150,
+                    height: 50,
+                    margin: 3,
+                  }}
+                >
+                  <Typography variant="h6">
+                    {approved ? 'Approved' : 'Not approved'}
+                  </Typography>
+                </Box>
               </Typography>
-              
+
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <Typography variant="subtitle1">
@@ -152,21 +142,21 @@ const SellerProfile = ({BASE_URL,userID,isapproved}) => {
                     Phone Number: {profileData.phoneNumber}
                   </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12}>
                   <Typography variant="subtitle1">
                     <EmailIcon style={styles.icon} />
                     Email: {profileData.email}
                   </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12}>
                   <Typography variant="subtitle1">
                     <LocationOnIcon style={styles.icon} />
-                Address: {profileData.address}
+                    Address: {profileData.address}
                   </Typography>
                 </Grid>
               </Grid>
             </div>
-           
+
             <div style={styles.section}>
               <Typography variant="h6">
                 <TwitterIcon style={styles.icon} />
@@ -190,7 +180,10 @@ const SellerProfile = ({BASE_URL,userID,isapproved}) => {
                 </Link>
               </Box>
             </div>
-            <Button onClick={()=>{navigate('edit')}}><EditIcon/>Edit</Button>
+            <Button onClick={() => navigate('edit')}>
+              <EditIcon />
+              Edit
+            </Button>
           </Box>
         </Paper>
       </Container>

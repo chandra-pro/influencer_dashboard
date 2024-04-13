@@ -26,7 +26,7 @@ import LoadingScreen from '../components/LoadingScreen';
 
 
 const drawerWidth = 240;
-export const APP_BASE_URL= process.env.APP_BASE_URL;
+
 const Dashboard = ({ BASE_URL, setShowSnackbar, setSnackbarMessage, setSnackbarSeverity }) => {
     
 

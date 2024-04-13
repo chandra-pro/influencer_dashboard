@@ -12,7 +12,7 @@ import LoadingScreen from './LoadingScreen';
 import ProductCard from './ProductCard';
 
 
-const APP_BASE_URL= "https://brapi.buybold.in"
+// const BASE_URL= "https://brapi.buybold.in"
 const ProductsList = ({ userID, BASE_URL ,isAdmin,user}) => {
     const [uploadedProducts, setUploadedProducts] = useState([]);
     const [searchQuery, setSearchQuery] = useState(''); 
@@ -26,9 +26,10 @@ const ProductsList = ({ userID, BASE_URL ,isAdmin,user}) => {
   
 
   const buttonStyle = {
-    fontSize: isSmallScreen ? '14px' : '16px',  // Adjust font size
-    padding: isSmallScreen ? '8px 12px' : '10px 16px',  // Adjust padding
-    minWidth: isSmallScreen ? '100px' : '120px',  // Adjust minimum width
+    fontSize: isSmallScreen ? '14px' : '16px',  
+    padding: isSmallScreen ? '8px 12px' : '10px 16px',  
+    minWidth: isSmallScreen ? '100px' : '120px', 
+    marginTop:"3em"
   };
     
     const filteredProducts = uploadedProducts.filter((product) =>
@@ -62,7 +63,7 @@ const ProductsList = ({ userID, BASE_URL ,isAdmin,user}) => {
         async function fetchUploadedProducts() {
             try {
                
-                const response = await axios.get(`${APP_BASE_URL}/products/getAllProducts`);
+                const response = await axios.get(`${BASE_URL}/products/getAllProducts`);
                 console.log("resp",response.data);
                 const { status, allProducts } = response.data;
                 if(response.data.status==="Success")
@@ -105,25 +106,32 @@ const ProductsList = ({ userID, BASE_URL ,isAdmin,user}) => {
             {uploadedProducts.length === 0 ? (
                 <Typography>No uploaded products yet.</Typography>
             ) : (
+              <>
                 <div style={styles.gridContainer}>
                     {filteredProducts.map((product) => (
                         <ProductCard product={product} isAdmin={isAdmin} user={user} BASE_URL={BASE_URL} userID={userID} />
                     ))}
+                    </div>
+                    <div>
                      {isLoading ? (
-        <p>Loading...</p>
-      ) : (
-        <Button
-      variant="contained"
-      color="primary"
-      onClick={handleLoadMore}
-      style={buttonStyle}
-    >
-      Load More
-    </Button>
-      )}
+                  <p>Loading...</p>
+                ) : (
+                  <Button
+                variant="contained"
+                color="primary"
+                onClick={handleLoadMore}
+                style={buttonStyle}
+              >
+                Load More
+              </Button>
+                )}
+                     
                 </div>
+              </>  
             )}
+            
         </div>
+        
 </>)
 }
 </>
