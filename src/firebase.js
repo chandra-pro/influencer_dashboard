@@ -1,15 +1,15 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
- const firebaseConfig = {
-  apiKey: "AIzaSyC7KlpeFccmbyVZCflF4rsQmgBadjYibS8",
+const firebaseConfig = {
+  apiKey: "AIzaSyCo5nLTDfzuR8GXJrdRoSiCeZ_FQs9Tzz4",
   authDomain: "buybold-2efd2.firebaseapp.com",
   databaseURL: "https://buybold-2efd2-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "buybold-2efd2",
   storageBucket: "buybold-2efd2.appspot.com",
   messagingSenderId: "352772504050",
-  appId: "1:352772504050:web:a144f21fcb016f8da9536b",
-  measurementId: "G-5ER770FBVW"
+  appId: "1:352772504050:web:c762699075b8e327a9536b",
+  measurementId: "G-HMMQZJYGHK"
 };
 
 // Initialize Firebase
